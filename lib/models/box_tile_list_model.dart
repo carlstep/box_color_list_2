@@ -6,26 +6,32 @@ class BoxTileList extends ChangeNotifier {
     BoxTile(
       boxTileColor: Colors.red,
       boxTileName: 'BoxTileOne',
-      boxTileIndex: '0001',
+      boxTileId: '0001',
       boxTileValue: 1.25,
     ),
     BoxTile(
       boxTileColor: Colors.blue,
       boxTileName: 'BoxTileTwo',
-      boxTileIndex: '0002',
+      boxTileId: '0002',
       boxTileValue: 1.10,
     ),
     BoxTile(
       boxTileColor: Colors.yellow,
       boxTileName: 'BoxTileThree',
-      boxTileIndex: '0003',
+      boxTileId: '0003',
       boxTileValue: 0.90,
     ),
     BoxTile(
       boxTileColor: Colors.green,
       boxTileName: 'BoxTileFour',
-      boxTileIndex: '0004',
+      boxTileId: '0004',
       boxTileValue: 1.50,
+    ),
+    BoxTile(
+      boxTileColor: Colors.purple,
+      boxTileName: 'BoxTileFive',
+      boxTileId: '0005',
+      boxTileValue: 2.20,
     ),
   ];
 
@@ -34,4 +40,10 @@ class BoxTileList extends ChangeNotifier {
   List<BoxTile> get boxList => _boxList;
 
   List<BoxTile> get displayBoxList => _displayBoxList;
+
+  void replaceBoxTile(int index) {
+    print('replaceBoxTile $index');
+
+    // final int item = _boxList.indexWhere((item) => false)
+  }
 }

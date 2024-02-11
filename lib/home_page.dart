@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   showFloatingActionButton() {
-    if (_boxContainerList.length <= 2) {
+    if (_boxContainerList.length <= 3) {
       return FloatingActionButton(
         onPressed: _addBoxContainer,
         child: const Icon(Icons.add),
@@ -45,17 +45,21 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _replaceBoxTile(int index) {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('box color list'),
+        title: const Text('box color list'),
       ),
       body: Consumer<BoxTileList>(
         builder: (context, value, child) => SafeArea(
           child: Column(
             children: [
-              Center(
+              const Center(
                 child: Text('List of BoxTiles'),
               ),
               Expanded(
@@ -66,7 +70,7 @@ class _HomePageState extends State<HomePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: ListTile(
                           key: Key('$index'),
-                          title: Text('Item ${_boxContainerList[index]}'),
+                          title: Text('Item - ${[index]}'),
                           tileColor: Colors.grey.shade400,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10),
@@ -74,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                           trailing: _boxContainerList.length >= 2
                               ? IconButton(
                                   onPressed: () => _deleteBoxContainer(index),
-                                  icon: Icon(Icons.delete),
+                                  icon: const Icon(Icons.delete),
                                 )
                               : null,
                           subtitle: BoxTileContainer(
@@ -106,7 +110,14 @@ class BoxTileContainer extends StatelessWidget {
       tileColor: Colors.grey.shade100,
       leading: GestureDetector(
         // TODO - onTap to showModalBottomSheet
-        onTap: () {},
+        onTap: () {
+          print('boxTile Index - ${boxTile.boxTileId}');
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return const BoxBottomSheet();
+              });
+        },
         child: CircleAvatar(
           radius: 20,
           backgroundColor: boxTile.boxTileColor,
@@ -115,16 +126,47 @@ class BoxTileContainer extends StatelessWidget {
       title: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(boxTile.boxTileIndex),
-          SizedBox(
+          Text(boxTile.boxTileId),
+          const SizedBox(
             width: 10,
           ),
           Text(boxTile.boxTileName),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Text(boxTile.boxTileValue.toString()),
         ],
+      ),
+    );
+  }
+}
+
+class BoxBottomSheet extends StatelessWidget {
+  const BoxBottomSheet({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<BoxTileList>(
+      builder: (context, value, child) => Container(
+        height: 400,
+        child: ListView.builder(
+            itemCount: value.boxList.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                onTap: () => Provider.of<BoxTileList>(context, listen: false)
+                    .replaceBoxTile(index),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                leading: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: value.boxList[index].boxTileColor,
+                ),
+                title: Text(value.boxList[index].boxTileName),
+              );
+            }),
       ),
     );
   }

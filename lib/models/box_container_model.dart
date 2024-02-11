@@ -1,4 +1,3 @@
-import 'package:box_color_list_2/models/box_tile_model.dart';
 import 'package:flutter/material.dart';
 
 class BoxContainerModel {

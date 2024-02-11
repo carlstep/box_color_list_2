@@ -19,7 +19,7 @@ class MainApp extends StatelessWidget {
           theme: ThemeData(
             useMaterial3: true,
           ),
-          home: HomePage(),
+          home: const HomePage(),
         );
       },
     );
